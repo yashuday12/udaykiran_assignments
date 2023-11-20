@@ -1,0 +1,418 @@
+mysql> create database movies;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use movies;
+Database changed
+mysql> create table tb1(movie varchar(50) primary key, dir varchar(50), hero varchar(50), rating int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> dsc tb1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dsc tb1' at line 1
+mysql> desc tb1;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| movie  | varchar(50) | NO   | PRI | NULL    |       |
+| dir    | varchar(50) | YES  |     | NULL    |       |
+| hero   | varchar(50) | YES  |     | NULL    |       |
+| rating | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> create table tb2(rating int primary key, verdict varchar(30));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc tb2;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| rating  | int         | NO   | PRI | NULL    |       |
+| verdict | varchar(30) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into tb1 values('leo','lokesh','vijay',2),('rrr','ssr','ntr',3),('vikram','lokesh','kamal',3);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from tb1;
++--------+--------+-------+--------+
+| movie  | dir    | hero  | rating |
++--------+--------+-------+--------+
+| leo    | lokesh | vijay |      2 |
+| rrr    | ssr    | ntr   |      3 |
+| vikram | lokesh | kamal |      3 |
++--------+--------+-------+--------+
+3 rows in set (0.00 sec)
+
+mysql> insert into tb2 values(3,'hit'),(2,'average'),(1,'flop');
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from tb2;
++--------+---------+
+| rating | verdict |
++--------+---------+
+|      1 | flop    |
+|      2 | average |
+|      3 | hit     |
++--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update tb1 set rating=1 where movie='leo';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from tb1;
++--------+--------+-------+--------+
+| movie  | dir    | hero  | rating |
++--------+--------+-------+--------+
+| leo    | lokesh | vijay |      1 |
+| rrr    | ssr    | ntr   |      3 |
+| vikram | lokesh | kamal |      3 |
++--------+--------+-------+--------+
+3 rows in set (0.00 sec)
+
+mysql> insert into table values('meter','karthik','kiran',1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table values('meter','karthik','kiran',1)' at line 1
+mysql> insert into tb1 values('meter','karthik','kiran',1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from tb1;
++--------+---------+-------+--------+
+| movie  | dir     | hero  | rating |
++--------+---------+-------+--------+
+| leo    | lokesh  | vijay |      1 |
+| meter  | karthik | kiran |      1 |
+| rrr    | ssr     | ntr   |      3 |
+| vikram | lokesh  | kamal |      3 |
++--------+---------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> delete from tb1 where hero='kiran';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from tb1;
++--------+--------+-------+--------+
+| movie  | dir    | hero  | rating |
++--------+--------+-------+--------+
+| leo    | lokesh | vijay |      1 |
+| rrr    | ssr    | ntr   |      3 |
+| vikram | lokesh | kamal |      3 |
++--------+--------+-------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from tb1 where rating>3;
+Empty set (0.00 sec)
+
+mysql> select * from tb1 where name like 'l%';
+ERROR 1054 (42S22): Unknown column 'name' in 'where clause'
+mysql> select * from tb1 where dir like 'l%';
++--------+--------+-------+--------+
+| movie  | dir    | hero  | rating |
++--------+--------+-------+--------+
+| leo    | lokesh | vijay |      1 |
+| vikram | lokesh | kamal |      3 |
++--------+--------+-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from tb1 where dir='lokesh' and rating=3;
++--------+--------+-------+--------+
+| movie  | dir    | hero  | rating |
++--------+--------+-------+--------+
+| vikram | lokesh | kamal |      3 |
++--------+--------+-------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from tb1 where rating between(2,3);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select * from tb1 where rating between 2 and 3;
++--------+--------+-------+--------+
+| movie  | dir    | hero  | rating |
++--------+--------+-------+--------+
+| rrr    | ssr    | ntr   |      3 |
+| vikram | lokesh | kamal |      3 |
++--------+--------+-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from tb1 where hero in('vijay','kamal');
++--------+--------+-------+--------+
+| movie  | dir    | hero  | rating |
++--------+--------+-------+--------+
+| leo    | lokesh | vijay |      1 |
+| vikram | lokesh | kamal |      3 |
++--------+--------+-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select sum(rating) from tb2;
++-------------+
+| sum(rating) |
++-------------+
+|           6 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(rating) from tb2;
++-------------+
+| avg(rating) |
++-------------+
+|      2.0000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select min(rating) from tb2;
++-------------+
+| min(rating) |
++-------------+
+|           1 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(rating) from tb2;
++-------------+
+| max(rating) |
++-------------+
+|           3 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select count(*) from tb1 where rating=3;
++----------+
+| count(*) |
++----------+
+|        2 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> insert into tb1 values('shakthi','meher','ntr',1),('meter','karthik','kiran',1),('jawan','atlee','sharukh',3);
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from tb1;
++---------+---------+---------+--------+
+| movie   | dir     | hero    | rating |
++---------+---------+---------+--------+
+| jawan   | atlee   | sharukh |      3 |
+| leo     | lokesh  | vijay   |      1 |
+| meter   | karthik | kiran   |      1 |
+| rrr     | ssr     | ntr     |      3 |
+| shakthi | meher   | ntr     |      1 |
+| vikram  | lokesh  | kamal   |      3 |
++---------+---------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select hero, sum(rating) from tb1 group by hero having sum(rating)>2;
++---------+-------------+
+| hero    | sum(rating) |
++---------+-------------+
+| sharukh |           3 |
+| ntr     |           4 |
+| kamal   |           3 |
++---------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select hero, sum(rating) from tb1 group by hero having sum(rating)>2 order by hero;
++---------+-------------+
+| hero    | sum(rating) |
++---------+-------------+
+| kamal   |           3 |
+| ntr     |           4 |
+| sharukh |           3 |
++---------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select movie,rating from tb1 order by rating desc;
++---------+--------+
+| movie   | rating |
++---------+--------+
+| jawan   |      3 |
+| rrr     |      3 |
+| vikram  |      3 |
+| leo     |      1 |
+| meter   |      1 |
+| shakthi |      1 |
++---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> update tb1 set rating=0 where movie='shakthi';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select movie,hero,t2.rating from tb1 t1,tb2 t2 where t1.rating=t2.rating;
++--------+---------+--------+
+| movie  | hero    | rating |
++--------+---------+--------+
+| jawan  | sharukh |      3 |
+| leo    | vijay   |      1 |
+| meter  | kiran   |      1 |
+| rrr    | ntr     |      3 |
+| vikram | kamal   |      3 |
++--------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select movie,hero,t2.rating from tb1 t1,tb2 t2 where t1.rating!=t2.rating;
++---------+---------+--------+
+| movie   | hero    | rating |
++---------+---------+--------+
+| jawan   | sharukh |      2 |
+| jawan   | sharukh |      1 |
+| leo     | vijay   |      3 |
+| leo     | vijay   |      2 |
+| meter   | kiran   |      3 |
+| meter   | kiran   |      2 |
+| rrr     | ntr     |      2 |
+| rrr     | ntr     |      1 |
+| shakthi | ntr     |      3 |
+| shakthi | ntr     |      2 |
+| shakthi | ntr     |      1 |
+| vikram  | kamal   |      2 |
+| vikram  | kamal   |      1 |
++---------+---------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select*from tb1;
++---------+---------+---------+--------+
+| movie   | dir     | hero    | rating |
++---------+---------+---------+--------+
+| jawan   | atlee   | sharukh |      3 |
+| leo     | lokesh  | vijay   |      1 |
+| meter   | karthik | kiran   |      1 |
+| rrr     | ssr     | ntr     |      3 |
+| shakthi | meher   | ntr     |      0 |
+| vikram  | lokesh  | kamal   |      3 |
++---------+---------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from tb2;
++--------+---------+
+| rating | verdict |
++--------+---------+
+|      1 | flop    |
+|      2 | average |
+|      3 | hit     |
++--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select movie,hero,dir,hero,rating,verdict from tb1 natural join tb2;
++--------+---------+---------+---------+--------+---------+
+| movie  | hero    | dir     | hero    | rating | verdict |
++--------+---------+---------+---------+--------+---------+
+| jawan  | sharukh | atlee   | sharukh |      3 | hit     |
+| leo    | vijay   | lokesh  | vijay   |      1 | flop    |
+| meter  | kiran   | karthik | kiran   |      1 | flop    |
+| rrr    | ntr     | ssr     | ntr     |      3 | hit     |
+| vikram | kamal   | lokesh  | kamal   |      3 | hit     |
++--------+---------+---------+---------+--------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select movie,hero,t1.rating,verdict from tb1 t1 left outer join tb2 t2 on t1.rating=t2.rating;
++---------+---------+--------+---------+
+| movie   | hero    | rating | verdict |
++---------+---------+--------+---------+
+| jawan   | sharukh |      3 | hit     |
+| leo     | vijay   |      1 | flop    |
+| meter   | kiran   |      1 | flop    |
+| rrr     | ntr     |      3 | hit     |
+| shakthi | ntr     |      0 | NULL    |
+| vikram  | kamal   |      3 | hit     |
++---------+---------+--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> insert into tb2 values(4,'blockbuster');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select movie,hero,t2.rating,verdict from tb1 t1 right outer join tb2 t2 on t1.rating=t2.rating;
++--------+---------+--------+-------------+
+| movie  | hero    | rating | verdict     |
++--------+---------+--------+-------------+
+| meter  | kiran   |      1 | flop        |
+| leo    | vijay   |      1 | flop        |
+| NULL   | NULL    |      2 | average     |
+| vikram | kamal   |      3 | hit         |
+| rrr    | ntr     |      3 | hit         |
+| jawan  | sharukh |      3 | hit         |
+| NULL   | NULL    |      4 | blockbuster |
++--------+---------+--------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> alter table tb1 add(expected_rating int);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update tb1 set expected_rating=4 where dir='ssr';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update tb1 set expected_rating=4 where dir='lokesh';
+Query OK, 2 rows affected (0.00 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> update tb1 set expected_rating=0 where dir='meher';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update tb1 set expected_rating=3 where dir='atlee';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update tb1 set expected_rating=1 where dir='karthik';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from tb1;
++---------+---------+---------+--------+-----------------+
+| movie   | dir     | hero    | rating | expected_rating |
++---------+---------+---------+--------+-----------------+
+| jawan   | atlee   | sharukh |      3 |               3 |
+| leo     | lokesh  | vijay   |      1 |               4 |
+| meter   | karthik | kiran   |      1 |               1 |
+| rrr     | ssr     | ntr     |      3 |               4 |
+| shakthi | meher   | ntr     |      0 |               0 |
+| vikram  | lokesh  | kamal   |      3 |               4 |
++---------+---------+---------+--------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select t1.rating,t1.movie,t2.expected_rating from tb1 t1,tb1 t2 where t1.rating=t2.expected_rating;
++--------+---------+-----------------+
+| rating | movie   | expected_rating |
++--------+---------+-----------------+
+|      3 | vikram  |               3 |
+|      3 | rrr     |               3 |
+|      3 | jawan   |               3 |
+|      1 | meter   |               1 |
+|      1 | leo     |               1 |
+|      0 | shakthi |               0 |
++--------+---------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select t1.rating,t1.movie,t2.expected_rating from tb1 t1,tb1 t2 where t1.expected_rating=t2.rating;
++--------+---------+-----------------+
+| rating | movie   | expected_rating |
++--------+---------+-----------------+
+|      3 | jawan   |               3 |
+|      1 | meter   |               4 |
+|      1 | meter   |               1 |
+|      3 | jawan   |               4 |
+|      0 | shakthi |               0 |
+|      3 | jawan   |               4 |
++--------+---------+-----------------+
+6 rows in set (0.00 sec)
+
+
+mysql> select * from tb1 where rating=(select min(rating) from tb2);
++-------+---------+-------+--------+-----------------+
+| movie | dir     | hero  | rating | expected_rating |
++-------+---------+-------+--------+-----------------+
+| leo   | lokesh  | vijay |      1 |               4 |
+| meter | karthik | kiran |      1 |               1 |
++-------+---------+-------+--------+-----------------+
+2 rows in set (0.00 sec)
+
+mysql> select movie from (select movie,dir from tb1 where hero in('kiran','sharukh')) tab;
++-------+
+| movie |
++-------+
+| jawan |
+| meter |
++-------+
+2 rows in set (0.00 sec)

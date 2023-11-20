@@ -1,0 +1,886 @@
+create database assignment
+    -> ;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use assignment
+Database changed
+mysql> create table orders(uid int primary key, uname varchar(20), pid int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table orders(pid int primary key);
+ERROR 1050 (42S01): Table 'orders' already exists
+mysql> create table products(pid int primary key);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc orders
+    -> ;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| uid   | int         | NO   | PRI | NULL    |       |
+| uname | varchar(20) | YES  |     | NULL    |       |
+| pid   | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> desc products;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| pid   | int  | NO   | PRI | NULL    |       |
++-------+------+------+-----+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> alter table products add(cost int, pname varchar(20));
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc products;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| pid   | int         | NO   | PRI | NULL    |       |
+| cost  | int         | YES  |     | NULL    |       |
+| pname | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table orders products delete pname;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'products delete pname' at line 1
+mysql> alter table products delete pname;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delete pname' at line 1
+mysql> alter table products drop column pname;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc products;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| pid   | int  | NO   | PRI | NULL    |       |
+| cost  | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into products values(100,1000),(200,3000),(300,7000),(400,10000),(500,20000);
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> insert into orders values(1,uday,200),(2,surya,100),(3,yash,400),(4,tej,200),(5,raj,300),(6,harsh,400);
+ERROR 1054 (42S22): Unknown column 'uday' in 'field list'
+mysql> insert into orders values(1,'uday',200),(2,'surya',100),(3,'yash',400),(4,'tej',200),(5,'raj',300),(6,'harsh',400);
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from orders;
++-----+-------+------+
+| uid | uname | pid  |
++-----+-------+------+
+|   1 | uday  |  200 |
+|   2 | surya |  100 |
+|   3 | yash  |  400 |
+|   4 | tej   |  200 |
+|   5 | raj   |  300 |
+|   6 | harsh |  400 |
++-----+-------+------+
+6 rows in set (0.00 sec)
+
+mysql> select * from products;
++-----+-------+
+| pid | cost  |
++-----+-------+
+| 100 |  1000 |
+| 200 |  3000 |
+| 300 |  7000 |
+| 400 | 10000 |
+| 500 | 20000 |
++-----+-------+
+5 rows in set (0.00 sec)
+
+mysql> update orders set pid=100 where uid=6;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from orders;
++-----+-------+------+
+| uid | uname | pid  |
++-----+-------+------+
+|   1 | uday  |  200 |
+|   2 | surya |  100 |
+|   3 | yash  |  400 |
+|   4 | tej   |  200 |
+|   5 | raj   |  300 |
+|   6 | harsh |  100 |
++-----+-------+------+
+6 rows in set (0.00 sec)
+
+mysql> delete from oders where uid=6;
+ERROR 1146 (42S02): Table 'assignment.oders' doesn't exist
+mysql> delete from orders where uid=6;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from orders;
++-----+-------+------+
+| uid | uname | pid  |
++-----+-------+------+
+|   1 | uday  |  200 |
+|   2 | surya |  100 |
+|   3 | yash  |  400 |
+|   4 | tej   |  200 |
+|   5 | raj   |  300 |
++-----+-------+------+
+5 rows in set (0.00 sec)
+
+mysql> alter table orders add(date DATE);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc orders
+    -> ;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| uid   | int         | NO   | PRI | NULL    |       |
+| uname | varchar(20) | YES  |     | NULL    |       |
+| pid   | int         | YES  |     | NULL    |       |
+| date  | date        | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> update date set date='2023-11-10' where uid=1;
+ERROR 1146 (42S02): Table 'assignment.date' doesn't exist
+mysql> update orders set date='2023-11-10' where uid=1;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update orders set date='2023-11-11' where uid=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update orders set date='2023-11-12' where uid=3;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update orders set date='2023-11-13' where uid=4;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update orders set date='2023-11-30' where uid=5;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from orders;
++-----+-------+------+------------+
+| uid | uname | pid  | date       |
++-----+-------+------+------------+
+|   1 | uday  |  200 | 2023-11-10 |
+|   2 | surya |  100 | 2023-11-11 |
+|   3 | yash  |  400 | 2023-11-12 |
+|   4 | tej   |  200 | 2023-11-13 |
+|   5 | raj   |  300 | 2023-11-30 |
++-----+-------+------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from orders where uname in('uday','surya','teja');
++-----+-------+------+------------+
+| uid | uname | pid  | date       |
++-----+-------+------+------------+
+|   1 | uday  |  200 | 2023-11-10 |
+|   2 | surya |  100 | 2023-11-11 |
++-----+-------+------+------------+
+2 rows in set (0.00 sec)
+
+mysql> sselect * from orders where uid between 2 and 5;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sselect * from orders where uid between 2 and 5' at line 1
+mysql> select * from orders where uid between 2 and 5;
++-----+-------+------+------------+
+| uid | uname | pid  | date       |
++-----+-------+------+------------+
+|   2 | surya |  100 | 2023-11-11 |
+|   3 | yash  |  400 | 2023-11-12 |
+|   4 | tej   |  200 | 2023-11-13 |
+|   5 | raj   |  300 | 2023-11-30 |
++-----+-------+------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from orders where uname like 'u%';
++-----+-------+------+------------+
+| uid | uname | pid  | date       |
++-----+-------+------+------------+
+|   1 | uday  |  200 | 2023-11-10 |
++-----+-------+------+------------+
+1 row in set (0.00 sec)
+
+mysql> select * from orders where uname like 's__y_';
++-----+-------+------+------------+
+| uid | uname | pid  | date       |
++-----+-------+------+------------+
+|   2 | surya |  100 | 2023-11-11 |
++-----+-------+------+------------+
+1 row in set (0.00 sec)
+
+mysql> select * from orders where uname like '_a%';
++-----+-------+------+------------+
+| uid | uname | pid  | date       |
++-----+-------+------+------------+
+|   3 | yash  |  400 | 2023-11-12 |
+|   5 | raj   |  300 | 2023-11-30 |
++-----+-------+------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select sum(cost) from products;
++-----------+
+| sum(cost) |
++-----------+
+|     41000 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select avg(pid) from products;
++----------+
+| avg(pid) |
++----------+
+| 300.0000 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select min(cost) from products;
++-----------+
+| min(cost) |
++-----------+
+|      1000 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select max(cost) from products;
++-----------+
+| max(cost) |
++-----------+
+|     20000 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select count(pid) from products where cost>1000;
++------------+
+| count(pid) |
++------------+
+|          4 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select * from ordersl
+    -> ;
+ERROR 1146 (42S02): Table 'assignment.ordersl' doesn't exist
+mysql> select * from orders;
++-----+-------+------+------------+
+| uid | uname | pid  | date       |
++-----+-------+------+------------+
+|   1 | uday  |  200 | 2023-11-10 |
+|   2 | surya |  100 | 2023-11-11 |
+|   3 | yash  |  400 | 2023-11-12 |
+|   4 | tej   |  200 | 2023-11-13 |
+|   5 | raj   |  300 | 2023-11-30 |
++-----+-------+------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from products;
++-----+-------+
+| pid | cost  |
++-----+-------+
+| 100 |  1000 |
+| 200 |  3000 |
+| 300 |  7000 |
+| 400 | 10000 |
+| 500 | 20000 |
++-----+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from orders o,products p where o.pid=p.pid;
++-----+-------+------+------------+-----+-------+
+| uid | uname | pid  | date       | pid | cost  |
++-----+-------+------+------------+-----+-------+
+|   1 | uday  |  200 | 2023-11-10 | 200 |  3000 |
+|   2 | surya |  100 | 2023-11-11 | 100 |  1000 |
+|   3 | yash  |  400 | 2023-11-12 | 400 | 10000 |
+|   4 | tej   |  200 | 2023-11-13 | 200 |  3000 |
+|   5 | raj   |  300 | 2023-11-30 | 300 |  7000 |
++-----+-------+------+------------+-----+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from order 0 cross join products p where o.pid=p.pid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order 0 cross join products p where o.pid=p.pid' at line 1
+mysql> select * from order o cross join products p where o.pid=p.pid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order o cross join products p where o.pid=p.pid' at line 1
+mysql> select * from orders o cross join products p where o.pid=p.pid;
++-----+-------+------+------------+-----+-------+
+| uid | uname | pid  | date       | pid | cost  |
++-----+-------+------+------------+-----+-------+
+|   1 | uday  |  200 | 2023-11-10 | 200 |  3000 |
+|   2 | surya |  100 | 2023-11-11 | 100 |  1000 |
+|   3 | yash  |  400 | 2023-11-12 | 400 | 10000 |
+|   4 | tej   |  200 | 2023-11-13 | 200 |  3000 |
+|   5 | raj   |  300 | 2023-11-30 | 300 |  7000 |
++-----+-------+------+------------+-----+-------+
+5 rows in set (0.00 sec)
+
+mysql> select uid,uname,o.pid, cost,date from orders o natural join products p;
++-----+-------+------+-------+------------+
+| uid | uname | pid  | cost  | date       |
++-----+-------+------+-------+------------+
+|   1 | uday  |  200 |  3000 | 2023-11-10 |
+|   2 | surya |  100 |  1000 | 2023-11-11 |
+|   3 | yash  |  400 | 10000 | 2023-11-12 |
+|   4 | tej   |  200 |  3000 | 2023-11-13 |
+|   5 | raj   |  300 |  7000 | 2023-11-30 |
++-----+-------+------+-------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select uid,uname,o.pid,coist,date from orders o left join products p;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select uid,uname,o.pid,cost,date from orders o left join products p;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select uid,uname,o.pid,cost,date from orders o left outer join products p;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select uid,uname,o.pid,cost,date from orders o left outer join products p on o.pid=p.pid;
++-----+-------+------+-------+------------+
+| uid | uname | pid  | cost  | date       |
++-----+-------+------+-------+------------+
+|   1 | uday  |  200 |  3000 | 2023-11-10 |
+|   2 | surya |  100 |  1000 | 2023-11-11 |
+|   3 | yash  |  400 | 10000 | 2023-11-12 |
+|   4 | tej   |  200 |  3000 | 2023-11-13 |
+|   5 | raj   |  300 |  7000 | 2023-11-30 |
++-----+-------+------+-------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select uid,uname,o.pid,cost,date from orders o right outer join products p on o.pid=p.pid;
++------+-------+------+-------+------------+
+| uid  | uname | pid  | cost  | date       |
++------+-------+------+-------+------------+
+|    2 | surya |  100 |  1000 | 2023-11-11 |
+|    4 | tej   |  200 |  3000 | 2023-11-13 |
+|    1 | uday  |  200 |  3000 | 2023-11-10 |
+|    5 | raj   |  300 |  7000 | 2023-11-30 |
+|    3 | yash  |  400 | 10000 | 2023-11-12 |
+| NULL | NULL  | NULL | 20000 | NULL       |
++------+-------+------+-------+------------+
+6 rows in set (0.00 sec)
+
+mysql>  select uname from orders where(select pid from products where cost=1000);
++-------+
+| uname |
++-------+
+| uday  |
+| surya |
+| yash  |
+| tej   |
+| raj   |
++-------+
+5 rows in set (0.00 sec)
+
+mysql>  select uname from orders where pid=(select pid from products where cost=1000);
++-------+
+| uname |
++-------+
+| surya |
++-------+
+1 row in set (0.00 sec)
+
+mysql>  select uname from (select * from orders) em where uid=1;
++-------+
+| uname |
++-------+
+| uday  |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select pid,uid,uname from orders group by pid;
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'assignment.orders.uid' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select pid from orders group by pid;
++------+
+| pid  |
++------+
+|  200 |
+|  100 |
+|  400 |
+|  300 |
+
+use assignment;
+Database changed
+mysql> select adddate(date,31) from orders where uid=1;
++------------------+
+| adddate(date,31) |
++------------------+
+| 2023-12-11       |
++------------------+
+1 row in set (0.01 sec)
+
+mysql> select curdate();
++------------+
+| curdate()  |
++------------+
+| 2023-10-22 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select curtime();
++-----------+
+| curtime() |
++-----------+
+| 14:56:10  |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select datediff(0.date,p.date) from orders o, orders p where 0.uid=1 and p.uid=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'uid=1 and p.uid=2' at line 1
+mysql> select datediff(o.date,p.date) from orders o, orders p where o.uid=1 and p.uid=2;
++-------------------------+
+| datediff(o.date,p.date) |
++-------------------------+
+|                      -1 |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> select date fromat(date,%w %Y %M) from orders where uid=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(date,%w %Y %M) from orders where uid=1' at line 1
+mysql> select date fromat(date,'%w %Y %M') from orders where uid=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(date,'%w %Y %M') from orders where uid=1' at line 1
+mysql> select date_fromat(date,'%w %Y %M') from orders where uid=1;
+ERROR 1305 (42000): FUNCTION assignment.date_fromat does not exist
+mysql> select date_format(date,'%w %Y %M') from orders where uid=1;
++------------------------------+
+| date_format(date,'%w %Y %M') |
++------------------------------+
+| 5 2023 November              |
++------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select dayofweek(date) ffrom orders where uid=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'orders where uid=1' at line 1
+mysql> select dayofweek(date) from orders where uid=1;
++-----------------+
+| dayofweek(date) |
++-----------------+
+|               6 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select weekday(date) from orders where uid=1;
++---------------+
+| weekday(date) |
++---------------+
+|             4 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select weekday('2023-10-22');
++-----------------------+
+| weekday('2023-10-22') |
++-----------------------+
+|                     6 |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql> select dayofweek('2023-10-22');
++-------------------------+
+| dayofweek('2023-10-22') |
++-------------------------+
+|                       1 |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> select dayname('2023-10-22');
++-----------------------+
+| dayname('2023-10-22') |
++-----------------------+
+| Sunday                |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql> select dayofweek('2023-10-22');
++-------------------------+
+| dayofweek('2023-10-22') |
++-------------------------+
+|                       1 |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> select dayofmonth('2023-10-22');
++--------------------------+
+| dayofmonth('2023-10-22') |
++--------------------------+
+|                       22 |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> select dayofyear('2023-10-22');
++-------------------------+
+| dayofyear('2023-10-22') |
++-------------------------+
+|                     295 |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> select hour('12:11:00');
++------------------+
+| hour('12:11:00') |
++------------------+
+|               12 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> select minute('12:11:00');
++--------------------+
+| minute('12:11:00') |
++--------------------+
+|                 11 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select second('12:11:00');
++--------------------+
+| second('12:11:00') |
++--------------------+
+|                  0 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select getformat('12:11:00','USA');
+ERROR 1305 (42000): FUNCTION assignment.getformat does not exist
+mysql> select get_format('12:11:00','USA');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''12:11:00','USA')' at line 1
+mysql> select get_format('2023-10-22','USA');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''2023-10-22','USA')' at line 1
+mysql> select date_format('2023-10-22', get_format(date,'USA');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select last
+    -> _day('2023-10-22');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '('2023-10-22')' at line 2
+mysql> select last_day('2023-10-22');
++------------------------+
+| last_day('2023-10-22') |
++------------------------+
+| 2023-10-31             |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> select maketime(12,20,30);
++--------------------+
+| maketime(12,20,30) |
++--------------------+
+| 12:20:30           |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select monthname('2023-10-22');
++-------------------------+
+| monthname('2023-10-22') |
++-------------------------+
+| October                 |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> weekofyear('2023-10-22');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'weekofyear('2023-10-22')' at line 1
+mysql> select weekofyear('2023-10-22');
++--------------------------+
+| weekofyear('2023-10-22') |
++--------------------------+
+|                       42 |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> select bin(10);
++---------+
+| bin(10) |
++---------+
+| 1010    |
++---------+
+1 row in set (0.01 sec)
+
+mysql> select bit_length('uday');
++--------------------+
+| bit_length('uday') |
++--------------------+
+|                 32 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select concat('uday','kiran');
++------------------------+
+| concat('uday','kiran') |
++------------------------+
+| udaykiran              |
++------------------------+
+1 row in set (0.01 sec)
+
+mysql> select concat_ws(',','uday','kiran');
++-------------------------------+
+| concat_ws(',','uday','kiran') |
++-------------------------------+
+| uday,kiran                    |
++-------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select elt(2,'aa','bb');
++------------------+
+| elt(2,'aa','bb') |
++------------------+
+| bb               |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> select field('uu','aa','uu','bb');
++----------------------------+
+| field('uu','aa','uu','bb') |
++----------------------------+
+|                          2 |
++----------------------------+
+1 row in set (0.00 sec)
+
+mysql> select hex(14);
++---------+
+| hex(14) |
++---------+
+| E       |
++---------+
+1 row in set (0.00 sec)
+
+mysql> lower('UDAY');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'lower('UDAY')' at line 1
+mysql> select lower('UDAY');
++---------------+
+| lower('UDAY') |
++---------------+
+| uday          |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select upper('uday');
++---------------+
+| upper('uday') |
++---------------+
+| UDAY          |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select insert('uday',2,'kk');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> select insert('uday',2,2,'kk');
++-------------------------+
+| insert('uday',2,2,'kk') |
++-------------------------+
+| ukky                    |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> instr('uday','da');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'instr('uday','da')' at line 1
+mysql> select instr('uday','da');
++--------------------+
+| instr('uday','da') |
++--------------------+
+|                  2 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> length('uday');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'length('uday')' at line 1
+mysql> select length('uday');
++----------------+
+| length('uday') |
++----------------+
+|              4 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select locate('da','uday');
++---------------------+
+| locate('da','uday') |
++---------------------+
+|                   2 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> left('uday',3);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'left('uday',3)' at line 1
+mysql> select left('uday',3);
++----------------+
+| left('uday',3) |
++----------------+
+| uda            |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select right('uday',3);
++-----------------+
+| right('uday',3) |
++-----------------+
+| day             |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select ltrim('   u');
++---------------+
+| ltrim('   u') |
++---------------+
+| u             |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select rtrim('u    ');
++----------------+
+| rtrim('u    ') |
++----------------+
+| u              |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select repeat('uday',5);
++----------------------+
+| repeat('uday',5)     |
++----------------------+
+| udayudayudayudayuday |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> seelct reverse('uday'
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'seelct reverse('uday'
+)' at line 1
+mysql> select reverse('uday');
++-----------------+
+| reverse('uday') |
++-----------------+
+| yadu            |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select replace('uday','ud','aa');
++---------------------------+
+| replace('uday','ud','aa') |
++---------------------------+
+| aaay                      |
++---------------------------+
+1 row in set (0.00 sec)
+
+mysql> select substring('uday',2,2);
++-----------------------+
+| substring('uday',2,2) |
++-----------------------+
+| da                    |
++-----------------------+
+1 row in set (0.00 sec)
+
++------+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `new_procedure`(in i int)
+BEGIN
+      declare v int ;
+      select pid into v from orders where uid=i;
+      if v>=200 then select cost from products where pid>v;
+	  end if;
+END
+call assignment.new_procedure(3);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `new_procedure1`(in i int)
+BEGIN
+     insert into orders values(6,'kiran',200,'2023-10-23');
+     update orders set pid=300 where uid=i;
+     select * from orders;
+END
+call assignment.new_procedure1(2);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `new_procedure2`()
+BEGIN
+     declare  v int default 1;
+     while v<7 do
+       select * from orders where uid=v;
+	   set v=v+1;
+       end while;
+END
+call assignment.new_procedure2();
+CREATE DEFINER=`root`@`localhost` PROCEDURE `new_procedure4`()
+BEGIN
+    declare v int default 1;
+    lab: LOOP
+      IF v >6 then leave lab;
+      else 
+         select * from orders where uid=v;
+         set v=v+1;
+	  end if;
+	end loop;
+    
+END
+call assignment.new_procedure4();
+CREATE DEFINER=`root`@`localhost` PROCEDURE `new_procedure5`(in i int, out re varchar(20))
+BEGIN
+   DECLARE uu VARCHAR(100);
+
+SELECT uname into uu from orders where uid=i;
+
+    CASE uu
+		WHEN  'uday' THEN
+		   SET re = 'hi its uday';
+		WHEN 'surya' THEN
+		   SET re= 'hi its surya';
+		ELSE
+		   SET re= 'i dont know';
+	END CASE;
+END
+set @re = '0';
+call assignment.new_procedure5(1, @re);
+select @re;
+create view ord as select uname from orders where uid in(1,2,3);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from ord;
++-------+
+| uname |
++-------+
+| uday  |
+| surya |
+| yash  |
++-------+
+3 rows in set (0.00 sec)
+
+mysql> create trigger uu after insert on orders for each row set @mes='hi inserted';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> set @mes='';
+Query OK, 0 rows affected (0.00 sec)
+insert into orders values(7,'kali',300,'2023-11-21');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @mes;
++-------------+
+| @mes        |
++-------------+
+| hi inserted |
++-------------+
+1 row in set (0.00 sec)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `new_procedure6`(inout output varchar(100))
+BEGIN
+     DECLARE finished INTEGER DEFAULT 0;
+	DECLARE nam varchar(100) DEFAULT "";
+
+	DEClARE curname 
+		CURSOR FOR 
+			SELECT uname FROM orders;
+
+	DECLARE CONTINUE HANDLER 
+        FOR NOT FOUND SET finished = 1;
+
+	OPEN curname;
+
+	lab: LOOP
+		FETCH curname INTO nam;
+		IF finished = 1 THEN 
+			LEAVE lab;
+		END IF;
+		SET output = CONCAT(nam,",",output);
+	END LOOP lab;
+	CLOSE curname;
+
+END
+set @output = 'output';
+call assignment.new_procedure6(@output);
+select @output;
+kali,kiran,raj,tej,yash,surya,uday

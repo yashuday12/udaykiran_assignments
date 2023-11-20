@@ -1,0 +1,96 @@
+mysql> use airticketbooking;
+Database changed
+
+mysql> DESC admin; # ADMIN TABLE
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| admin_id   | int          | NO   | PRI | NULL    |       |
+| admin_name | varchar(250) | YES  |     | NULL    |       |
+| password   | varchar(250) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+ 
+mysql> DESC flight_owner;#FLIGHT_OWNER TABLE
++----------------+--------------+------+-----+---------+-------+
+| Field          | Type         | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| owner_id       | int          | NO   | PRI | NULL    |       |
+| owner_password | varchar(250) | YES  |     | NULL    |       |
+| owner_name     | varchar(250) | YES  |     | NULL    |       |
+| owner_contact  | varchar(250) | YES  |     | NULL    |       |
+| owner_email    | varchar(250) | YES  |     | NULL    |       |
++----------------+--------------+------+-----+---------+-------+
+
+mysql> DESC flight; #FLIGHT TABLE
++-------------------+--------------+------+-----+---------+-------+
+| Field             | Type         | Null | Key | Default | Extra |
++-------------------+--------------+------+-----+---------+-------+
+| flight_id         | int          | NO   | PRI | NULL    |       |
+| flight_name       | varchar(250) | YES  |     | NULL    |       |
+| source            | varchar(259) | YES  |     | NULL    |       |
+| destination       | varchar(250) | YES  |     | NULL    |       |
+| time_of_Arrival   | time         | YES  |     | NULL    |       |
+| time_of_departure | time         | YES  |     | NULL    |       |
+| duration          | varchar(250) | YES  |     | NULL    |       |
+| fare              | double       | YES  |     | NULL    |       |
+| type_of_flight    | varchar(250) | YES  |     | NULL    |       |
+| owner_id          | int          | YES  | MUL | NULL    |       |
++-------------------+--------------+------+-----+---------+-------+
+10 rows in set (0.01 sec)
+
+
+mysql> DESC registered_user; #REGISTERED_USER TABLE
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| user_id       | int          | NO   | PRI | NULL    |       |
+| first_name    | varchar(250) | YES  |     | NULL    |       |
+| last_name     | varchar(250) | YES  |     | NULL    |       |
+| date_of_birth | date         | YES  |     | NULL    |       |
+| gender        | varchar(250) | YES  |     | NULL    |       |
+| email         | varchar(250) | YES  |     | NULL    |       |
+| address       | varchar(250) | YES  |     | NULL    |       |
+| password      | varchar(20)  | YES  |     | NULL    |       |
+| contact_no    | varchar(250) | YES  |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+
+mysql> DESC ticket_details; #TICKET DETAILS
++------------------+--------------+------+-----+---------+-------+
+| Field            | Type         | Null | Key | Default | Extra |
++------------------+--------------+------+-----+---------+-------+
+| ticket_id        | int          | NO   | PRI | NULL    |       |
+| no_of_passeneger | int          | YES  |     | NULL    |       |
+| email            | varchar(250) | YES  |     | NULL    |       |
+| total_amount     | double       | YES  |     | NULL    |       |
+| travel_date      | date         | YES  |     | NULL    |       |
+| flight_id        | int          | YES  | MUL | NULL    |       |
+| user_id          | int          | YES  | MUL | NULL    |       |
++------------------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+
+mysql> DESC passenger;  #PASSENGER TABLE
++----------------+--------------+------+-----+---------+-------+
+| Field          | Type         | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| passenger_id   | int          | NO   | PRI | NULL    |       |
+| passenger_age  | int          | YES  |     | NULL    |       |
+| passenger_name | varchar(250) | YES  |     | NULL    |       |
+| seat_no        | varchar(250) | YES  |     | NULL    |       |
+| ticket_id      | int          | YES  | MUL | NULL    |       |
++----------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql>+
+
+
+
+
+
+
+
+
+
