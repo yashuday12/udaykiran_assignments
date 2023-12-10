@@ -1,0 +1,9 @@
+
+<form #formData="ngForm" (ngSubmit)="deletePlayer(formData)" class="container mt-4">
+    <div class="form-group class1">
+        <label for="playerId">PlayerId</label>
+        <input type="text" name="playerId" ngModel class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">deletePlayer</button>
+    <div *ngIf="deleteStatus">Player Deleted Successfully</div>
+</form>
